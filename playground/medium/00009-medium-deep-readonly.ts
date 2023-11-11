@@ -7,7 +7,9 @@
 
   Implement a generic `DeepReadonly<T>` which make every parameter of an object - and its sub-objects recursively - readonly.
 
-  You can assume that we are only dealing with Objects in this challenge. Arrays, Functions, Classes and so on do not need to be taken into consideration. However, you can still challenge yourself by covering as many different cases as possible.
+  You can assume that we are only dealing with Objects in this challenge.
+  Arrays, Functions, Classes and so on do not need to be taken into consideration.
+  However, you can still challenge yourself by covering as many different cases as possible.
 
   For example:
 
@@ -36,7 +38,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type DeepReadonly<T> = any
+type DeepReadonly<T> = {
+  readonly [K in keyof T]: T[K] extends object
+    ? T[K] extends Function ? T[K] : DeepReadonly<T[K]>
+    : T[K]
+}
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
