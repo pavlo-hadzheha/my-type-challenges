@@ -18,10 +18,12 @@
 
 /* _____________ Your Code Here _____________ */
 
-type TrimLeft<S extends string> = any
-
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
+
+type TrimLeft<T extends string> = T extends ` ${infer R}` | `\t${infer R}` | `\n${infer R}`
+  ? TrimLeft<R>
+  : T
 
 type cases = [
   Expect<Equal<TrimLeft<'str'>, 'str'>>,

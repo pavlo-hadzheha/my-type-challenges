@@ -30,8 +30,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type LookUp<U extends { type: U['type'] }, T extends U['type']> = U['type'] extends T ? never : U
-const a: LookUp<Animal, 'dog'>
+type LookUp<U, T> = U extends { type: T } ? U : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
