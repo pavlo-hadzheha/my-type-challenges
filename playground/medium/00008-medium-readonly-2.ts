@@ -37,8 +37,6 @@
 
 type MyReadonly2<T, K extends keyof T = keyof T> = Readonly<Pick<T, K>> & Omit<T, K>
 
-const a: MyReadonly2<Todo1>
-
 /* _____________ Test Cases _____________ */
 import type { Alike, Expect } from '@type-challenges/utils'
 
