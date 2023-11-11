@@ -7,7 +7,8 @@
 
   Implement a generic `MyReadonly2<T, K>` which takes two type argument `T` and `K`.
 
-  `K` specify the set of properties of `T` that should set to Readonly. When `K` is not provided, it should make all properties readonly just like the normal `Readonly<T>`.
+  `K` specifies the set of properties of `T` that should set to Readonly.
+  When `K` is not provided, it should make all properties readonly just like the normal `Readonly<T>`.
 
   For example
 
@@ -34,7 +35,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MyReadonly2<T, K> = any
+type MyReadonly2<T, K extends keyof T = keyof T> = Readonly<Pick<T, K>> & Omit<T, K>
+
+const a: MyReadonly2<Todo1>
 
 /* _____________ Test Cases _____________ */
 import type { Alike, Expect } from '@type-challenges/utils'
