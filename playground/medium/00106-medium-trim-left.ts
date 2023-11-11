@@ -21,7 +21,9 @@
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
 
-type TrimLeft<T extends string> = T extends ` ${infer R}` | `\t${infer R}` | `\n${infer R}`
+type Space = ' ' | '\t' | '\n'
+
+type TrimLeft<T extends string> = T extends `${Space}${infer R}`
   ? TrimLeft<R>
   : T
 

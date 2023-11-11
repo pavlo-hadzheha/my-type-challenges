@@ -18,7 +18,18 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Trim<S extends string> = any
+type TrimLeft<T extends string> = T extends ` ${infer R}` | `\t${infer R}` | `\n${infer R}`
+  ? TrimLeft<R>
+  : T
+
+type TrimRight<T extends string> = T extends `${infer R} ` | `${infer R}\t` | `${infer R}\n`
+  ? TrimRight<R>
+  : T
+
+// type Trim<T extends string> = TrimLeft<TrimRight<T>>
+
+type Space = ' ' | '\t' | '\n'
+type Trim<S extends string> = S extends `${Space}${infer T}` | `${infer T}${Space}` ? Trim<T> : S
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
