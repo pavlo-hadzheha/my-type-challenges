@@ -18,7 +18,10 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MyCapitalize<S extends string> = any
+// type MyCapitalize<S extends string> = S extends `${infer FirstLetter}`
+type MyCapitalize<T extends string> = T extends `${infer First}${infer Rest}`
+  ? `${Uppercase<First>}${Rest}`
+  : T
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
