@@ -5,7 +5,8 @@
 
   ### Question
 
-  Implement the JavaScript `Array.concat` function in the type system. A type takes the two arguments. The output should be a new array that includes inputs in ltr order
+  Implement the JavaScript `Array.concat` function in the type system. A type takes two arguments.
+  The output should be a new array that includes inputs in ltr order
 
   For example:
 
@@ -18,7 +19,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Concat<T, U> = any
+type Concat<T extends readonly any[], U extends readonly any[]> = [...T, ...U]
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
