@@ -7,7 +7,8 @@
 
   Implement the type version of lodash's ```_.flip```.
 
-  Type ```FlipArguments<T>``` requires function type ```T``` and returns a new function type which has the same return type of T but reversed parameters.
+  Type ```FlipArguments<T>``` requires function type ```T``` and returns a new function type
+  which has the same return type of T but reversed parameters.
 
   For example:
 
@@ -21,10 +22,14 @@
 
 /* _____________ Your Code Here _____________ */
 
-type FlipArguments<T> = any
+import type { Equal, Expect } from '@type-challenges/utils'
+import type { Reverse } from './03192-medium-reverse'
+
+type FlipArguments<T extends (...args: any[]) => any> = T extends (...args: infer R) => ReturnType<T>
+  ? (...args: Reverse<R>) => ReturnType<T>
+  : never
 
 /* _____________ Test Cases _____________ */
-import type { Equal, Expect } from '@type-challenges/utils'
 
 type cases = [
   Expect<Equal<FlipArguments<() => boolean>, () => boolean>>,
