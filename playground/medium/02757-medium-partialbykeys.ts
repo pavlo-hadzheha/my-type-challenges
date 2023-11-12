@@ -27,9 +27,8 @@
 
 /* _____________ Your Code Here _____________ */
 
-type PartialByKeys<T, K extends keyof T = never> = [K] extends [never]
-  ? Partial<T>
-  : Omit<{ [Key in K]?: T[Key] } & { [Key in Exclude<keyof T, K>]: T[Key] }, never>
+type PartialByKeys<T, K extends keyof T = keyof T> = Omit<{ [Key in K]?: T[Key] } &
+{ [Key in Exclude<keyof T, K>]: T[Key] }, never>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

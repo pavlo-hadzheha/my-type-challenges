@@ -7,7 +7,8 @@
 
   Implement a generic `RequiredByKeys<T,  K>` which takes two type argument `T` and `K`.
 
-  `K` specify the set of properties of `T` that should set to be required. When `K` is not provided, it should make all properties required just like the normal `Required<T>`.
+  `K` specify the set of properties of `T` that should set to be required.
+  When `K` is not provided, it should make all properties required just like the normal `Required<T>`.
 
   For example
 
@@ -27,7 +28,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type RequiredByKeys<T, K> = any
+type RequiredByKeys<T, K extends keyof T = keyof T> = Omit<T & Required<Pick<T, K & keyof T>>, never>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
