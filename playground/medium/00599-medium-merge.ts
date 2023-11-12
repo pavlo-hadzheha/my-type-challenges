@@ -27,7 +27,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Merge<F, S> = {
+export type Merge<F, S> = {
   [Key in keyof F | keyof S]: Key extends keyof S
     ? S[Key]
     : Key extends keyof F

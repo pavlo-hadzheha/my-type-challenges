@@ -5,9 +5,10 @@
 
   ### Question
 
-  Implement a generic `PartialByKeys<T, K>` which takes two type argument `T` and `K`.
+  Implement a generic `PartialByKeys<T, K>` which takes two type arguments `T` and `K`.
 
-  `K` specify the set of properties of `T` that should set to be optional. When `K` is not provided, it should make all properties optional just like the normal `Partial<T>`.
+  `K` specify the set of properties of `T` that should set to be optional. When `K` is not provided,
+   it should make all properties optional just like the normal `Partial<T>`.
 
   For example
 
@@ -26,7 +27,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type PartialByKeys<T, K> = any
+type PartialByKeys<T, K extends keyof T = never> = [K] extends [never]
+  ? Partial<T>
+  : Omit<{ [Key in K]?: T[Key] } & { [Key in Exclude<keyof T, K>]: T[Key] }, never>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
