@@ -5,7 +5,8 @@
 
   ### Question
 
-  Implement Python liked `any` function in the type system. A type takes the Array and returns `true` if any element of the Array is true. If the Array is empty, return `false`.
+  Implement Python liked `any` function in the type system. A type takes in an array and returns `true`
+  if any element of the array is truthy. If the Array is empty, return `false`.
 
   For example:
 
@@ -19,7 +20,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type AnyOf<T extends readonly any[]> = any
+type AnyOf<T extends any[]> = T[number] extends 0 | '' | false | [] | { [key: string]: never } | undefined | null
+  ? false
+  : true
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
