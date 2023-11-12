@@ -5,7 +5,7 @@
 
   ### Question
 
-  In this challenge, you would need to write a type that takes an array and emitted the flatten array type.
+  In this challenge, you need to write a type that takes an array and emits the flattened array type.
 
   For example:
 
@@ -18,7 +18,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Flatten = any
+type Flatten<T extends any[], U extends any[] = []> = T extends [infer X, ...infer Y]
+  ? X extends any[]
+    ? Flatten<[...X, ...Y], U>
+    : Flatten<[...Y], [...U, X]>
+  : U
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
