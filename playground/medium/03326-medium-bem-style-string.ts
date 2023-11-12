@@ -16,7 +16,13 @@
 
 /* _____________ Your Code Here _____________ */
 
-type BEM<B extends string, E extends string[], M extends string[]> = any
+type IsNever<T> = [T] extends [never] ? true : false
+type IsUnion<U> = IsNever<U> extends true ? '' : U
+type BEM<
+    B extends string,
+    E extends string[],
+    M extends string[],
+> = `${B}${IsUnion<`__${E[number]}`>}${IsUnion<`--${M[number]}`>}`
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
