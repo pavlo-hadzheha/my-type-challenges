@@ -19,7 +19,14 @@
 
 /* _____________ Your Code Here _____________ */
 
-type StringToUnion<T extends string> = any
+// type StringToUnion<T extends string, U extends string[] = []> = T extends `${infer F}${infer R}`
+//   ? R extends '' ? [...U, F][number] : StringToUnion<R, [...U, F]>
+//   : U[number]
+
+// Remember the fact that unions flatten in the end
+type StringToUnion<T extends string> = T extends `${infer F}${infer R}`
+  ? F | StringToUnion<R>
+  : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
