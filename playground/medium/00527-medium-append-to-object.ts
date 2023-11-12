@@ -5,7 +5,9 @@
 
   ### Question
 
-  Implement a type that adds a new field to the interface. The type takes the three arguments. The output should be an object with the new field.
+  Implement a type that adds a new field to the interface.
+  The type takes the three arguments.
+  The output should be an object with the new field.
 
   For example
 
@@ -19,7 +21,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type AppendToObject<T, U, V> = any
+type AppendToObject<T, K extends keyof any, V> = {
+  [Key in keyof T | K]: Key extends keyof T ? T[Key] : V
+}
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -60,6 +64,11 @@ type testExpect3 = {
   sun: false
   moon: false | undefined
 }
+
+/*
+const a: AppendToObject<test1, 'home', boolean> = { key: 'cat', value: 'green', home: false, some: 'key' }
+const b: Equal<test1 & { home: boolean }, AppendToObject<test1, 'home', boolean>>
+*/
 
 type cases = [
   Expect<Equal<AppendToObject<test1, 'home', boolean>, testExpect1>>,
