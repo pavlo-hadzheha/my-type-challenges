@@ -23,7 +23,13 @@
 
 /* _____________ Your Code Here _____________ */
 
-type ObjectEntries<T> = any
+type ObjectEntries<T extends object> = keyof T extends `${infer Key}`
+  ? Key extends keyof T ? [Key, Required<T>[Key]] : never
+  : never
+
+// type ObjectEntries<T, U = Required<T>> = {
+//   [K in keyof U]: [K, U[K]]
+// }[keyof U]
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
