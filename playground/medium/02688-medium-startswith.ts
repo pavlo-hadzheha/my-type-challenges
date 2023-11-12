@@ -5,7 +5,7 @@
 
   ### Question
 
-  Implement `StartsWith<T, U>` which takes two exact string types and returns whether `T` starts with `U`
+  Implement `StartsWith<T, U>` which takes two string type parameters and returns whether `T` starts with `U`
 
   For example
 
@@ -20,7 +20,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type StartsWith<T extends string, U extends string> = any
+type StartsWith<T extends string, U extends string> = T extends `${U}${infer _}` ? true : false
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
