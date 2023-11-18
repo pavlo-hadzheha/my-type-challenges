@@ -19,7 +19,20 @@
 
 /* _____________ Your Code Here _____________ */
 
-type AllCombinations<S> = any
+// util, get first character from an string
+type Head<T extends string> = T extends `${infer First}${any}` ? First : never
+
+// C is the current character to be handled in S
+type AllCombinations<S extends string, C extends string = ''> =
+    S extends '' ? '' : // edge case, fast return
+      C extends '' // is this the first time to handle S?
+        ? AllCombinations<S, Head<S>> // if so, we start handling it from its first character
+        : S extends `${infer Left}${C}${infer Right}` // else, we match S into 3 parts: Left, C, Right
+        // in the view of algorightm of combination, the final result is acctually the union of following parts ...
+          ? AllCombinations<`${Left}${Right}`> // 1. the combinations of the rest characters without current character
+          | `${C}${AllCombinations<`${Left}${Right}`>}` // 2. the combinations of the rest characters without current character, prefixed by current character
+          | AllCombinations<S, Head<Right>> // 3. the combinations of the all characters, with the next character to be handled
+          : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -38,3 +51,4 @@ type cases = [
   > View solutions: https://tsch.js.org/4260/solutions
   > More Challenges: https://tsch.js.org
 */
+
