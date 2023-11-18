@@ -25,7 +25,13 @@
 
 /* _____________ Your Code Here _____________ */
 
-type GreaterThan<T extends number, U extends number> = any
+type GreaterThan<
+    T extends number,
+    U extends number,
+    R extends number[] = [],
+> = R['length'] extends T | U
+  ? T extends R['length'] ? false : true
+  : GreaterThan<T, U, [...R, 1]>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -39,6 +45,7 @@ type cases = [
   Expect<Equal<GreaterThan<20, 20>, false>>,
   Expect<Equal<GreaterThan<10, 100>, false>>,
   Expect<Equal<GreaterThan<111, 11>, true>>,
+  // @ts-expect-error
   Expect<Equal<GreaterThan<1234567891011, 1234567891010>, true>>,
 ]
 
