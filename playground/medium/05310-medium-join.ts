@@ -19,7 +19,14 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Join<T, U> = any
+type Join<
+    T extends any[],
+    U extends string | number,
+> = T extends [infer T1, ...infer Rest]
+  ? Rest['length'] extends 0
+    ? `${T1 & string}`
+    : `${T1 & string}${U}${Join<Rest, U>}`
+  : ''
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
