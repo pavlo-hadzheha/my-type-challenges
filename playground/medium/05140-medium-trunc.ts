@@ -18,7 +18,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Trunc = any
+type Trunc<T extends number | string> = `${T}` extends `${infer WholePart}.${infer _}`
+  ? Trunc<WholePart>
+  : `${T extends '' ? 0 : T}`
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
