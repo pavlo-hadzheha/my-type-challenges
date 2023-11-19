@@ -12,7 +12,17 @@
 
 /* _____________ Your Code Here _____________ */
 
-type FirstUniqueCharIndex<T extends string> = any
+type FirstUniqueCharIndex<
+    S extends string,
+    C extends unknown[] = [],
+    MetChars extends string[] = [],
+> = S extends `${infer Start}${infer End}`
+  ? End extends `${string}${Start}${string}`
+    ? FirstUniqueCharIndex<End, [...C, unknown], [...MetChars, Start]>
+    : Start extends MetChars[number]
+      ? FirstUniqueCharIndex<End, [...C, unknown], [...MetChars, Start]>
+      : C['length']
+  : -1
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
