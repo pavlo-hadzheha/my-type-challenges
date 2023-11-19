@@ -18,7 +18,10 @@
 
 /* _____________ Your Code Here _____________ */
 
-type TrimRight<S extends string> = any
+type WhiteSpace = ' ' | '\t' | '\n'
+type TrimRight<S extends string> = S extends `${infer Trimmed}${WhiteSpace}`
+  ? TrimRight<Trimmed>
+  : S
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
