@@ -33,7 +33,24 @@
 
 /* _____________ Your Code Here _____________ */
 
-type CountElementNumberToObject<T> = any
+type Flatten<T, R extends any[] = []> = T extends [infer F, ...infer L] ?
+    [F] extends [never] ?
+      Flatten<L, R> :
+      F extends any[] ?
+        Flatten<L, [...R, ...Flatten<F>] >
+        : Flatten<L, [...R, F]>
+  : R
+
+type Count<T, R extends Record<string | number, any[]> = {}> =
+    T extends [infer F extends string | number, ...infer L] ?
+      F extends keyof R ?
+        Count<L, Omit<R, F> & Record<F, [...R[F], 0] > >
+        : Count<L, R & Record<F, [0]>>
+      : {
+          [K in keyof R]: R[K]['length']
+        }
+
+type CountElementNumberToObject<T> = Count<Flatten<T>>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
