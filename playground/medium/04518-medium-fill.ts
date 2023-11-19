@@ -24,7 +24,19 @@ type Fill<
   N,
   Start extends number = 0,
   End extends number = T['length'],
-> = any
+  Count extends number[] = [],
+  ReachedStartIndex extends boolean = Count['length'] extends Start ? true : false,
+> = Count['length'] extends End
+  ? T
+  : T extends [infer T1, ...infer Rest]
+    ? ReachedStartIndex extends true
+      ? [N, ...Fill<Rest, N, Start, End, [...Count, 0], ReachedStartIndex>]
+      : [T1, ...Fill<Rest, N, Start, End, [...Count, 0]>]
+    : T
+
+type a = Fill<[1, 2, 3], 0, 1>
+type b = Fill<[1, 2, 3], 0>
+const c: a = []
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -32,7 +44,9 @@ import type { Equal, Expect } from '@type-challenges/utils'
 type cases = [
   Expect<Equal<Fill<[], 0>, []>>,
   Expect<Equal<Fill<[], 0, 0, 3>, []>>,
-  Expect<Equal<Fill<[1, 2, 3], 0, 0, 0>, [1, 2, 3]>>,
+
+  Expect<Equal<Fill<[1, 2, 3], 0, 1>, [1, 0, 0]>>,
+
   Expect<Equal<Fill<[1, 2, 3], 0, 2, 2>, [1, 2, 3]>>,
   Expect<Equal<Fill<[1, 2, 3], 0>, [0, 0, 0]>>,
   Expect<Equal<Fill<[1, 2, 3], true>, [true, true, true]>>,
