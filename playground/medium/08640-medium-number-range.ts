@@ -16,7 +16,23 @@
 
 /* _____________ Your Code Here _____________ */
 
-type NumberRange<L, H> = any
+// type NumberRange<
+//     Start extends number,
+//     End extends number,
+//     Count extends number[] = [],
+//     CountReachedStart = Count['length'] extends Start ? true : false,
+// > = Count['length'] extends End
+//   ? End
+//   : CountReachedStart extends true
+//     ? Count['length'] | NumberRange<Start, End, [0, ...Count], CountReachedStart>
+//     : NumberRange<Start, End, [0, ...Count]>
+
+type Utils<L, C extends any[] = [], R = L> =
+    C['length'] extends L
+      ? R
+      : Utils<L, [...C, 0], C['length'] | R>
+
+type NumberRange<L, H> = L | Exclude<Utils<H>, Utils<L>>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
