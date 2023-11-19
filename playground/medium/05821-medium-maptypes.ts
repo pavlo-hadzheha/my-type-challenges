@@ -39,7 +39,27 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MapTypes<T, R> = any
+type MapTypes<
+    T extends object,
+    R extends { mapFrom: unknown; mapTo: unknown },
+> = {
+  [Key in keyof T]:
+  T[Key] extends R['mapFrom']
+    ? R extends { mapFrom: T[Key] }
+      ? R['mapTo']
+      : never
+    : T[Key]
+}
+
+// type T = { mapFrom: Date; mapTo: string } | { mapFrom: string; mapTo: boolean }
+// const b: T extends { mapFrom: string }
+//     ? T['mapTo']
+//     : never
+// const a: string extends T['mapFrom']
+//   ? T extends { mapFrom: string }
+//     ? T['mapTo']
+//     : never
+//   : string
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -52,7 +72,13 @@ type cases = [
   Expect<Equal<MapTypes<{ date: string }, { mapFrom: string; mapTo: Date | null }>, { date: null | Date }>>,
   Expect<Equal<MapTypes<{ fields: Record<string, boolean> }, { mapFrom: Record<string, boolean>; mapTo: string[] }>, { fields: string[] }>>,
   Expect<Equal<MapTypes<{ name: string }, { mapFrom: boolean; mapTo: never }>, { name: string }>>,
-  Expect<Equal<MapTypes<{ name: string; date: Date }, { mapFrom: string; mapTo: boolean } | { mapFrom: Date; mapTo: string }>, { name: boolean; date: string }>>,
+  Expect<Equal<MapTypes<
+      {
+        name: string
+        date: Date
+      },
+      { mapFrom: Date; mapTo: string } | { mapFrom: string; mapTo: boolean }
+  >, { name: boolean; date: string }>>,
 ]
 
 /* _____________ Further Steps _____________ */
