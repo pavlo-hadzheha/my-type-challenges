@@ -5,7 +5,8 @@
 
   ### Question
 
-  Implement the type version of Lodash.without, Without<T, U> takes an Array T, number or array U and returns an Array without the elements of U.
+  Implement the type version of Lodash.without,
+  Without<T, U> takes an Array T, number or array U and returns an Array without the elements of U.
 
   ```ts
   type Res = Without<[1, 2], 1>; // expected to be [2]
@@ -18,13 +19,23 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Without<T, U> = any
+type TupleToUnion<T extends any[]> = T extends [infer T1, ...infer Rest]
+  ? T1 | TupleToUnion<Rest>
+  : never
+
+type Without<T extends unknown[], U > =
+    T extends [infer T1, ...infer Rest]
+      ? T1 extends (U extends any[] ? TupleToUnion<U> : U)
+        ? Without<Rest, U>
+        : [T1, ...Without<Rest, U>]
+      : []
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
 
 type cases = [
   Expect<Equal<Without<[1, 2], 1>, [2]>>,
+  Expect<Equal<Without<[1, 2, 1, 1], 1>, [2]>>,
   Expect<Equal<Without<[1, 2, 4, 1, 5], [1, 2]>, [4, 5]>>,
   Expect<Equal<Without<[2, 3, 2, 3, 2, 3, 2, 3], [2, 3]>, []>>,
 ]
