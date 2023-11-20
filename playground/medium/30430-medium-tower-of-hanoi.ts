@@ -15,8 +15,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Hanoi<N extends number, From = 'A', To = 'B', Intermediate = 'C'> = any
+type Hanoi<N extends number, From = 'A', To = 'B', Intermediate = 'C'> = Helper<N, [], From, To, Intermediate>
 
+type Helper<N extends number, C extends 1[], From, To, Intermediate> = C['length'] extends N
+  ? []
+  : [...Helper<N, [...C, 1], From, Intermediate, To>, [From, To], ...Helper<N, [...C, 1], Intermediate, To, From>]
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
 

@@ -12,7 +12,8 @@
 
 /* _____________ Your Code Here _____________ */
 
-type IsOdd<T extends number> = any
+// your answers
+type IsOdd<T extends number> = `${T}` extends `${number | ''}${1 | 3 | 5 | 7 | 9}` ? true : false
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

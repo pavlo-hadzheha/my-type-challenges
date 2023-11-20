@@ -20,7 +20,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type ExtractToObject<T, U> = any
+type ExtractToObject<T, P extends keyof T> = Omit<Omit<T, P> & T[P], never>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

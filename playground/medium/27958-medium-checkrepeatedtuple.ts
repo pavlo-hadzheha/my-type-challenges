@@ -19,8 +19,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type CheckRepeatedTuple<T extends unknown[]> = any
-
+type CheckRepeatedTuple<T extends unknown[]> = T extends [infer L, ...infer R]
+  ? L extends R[number]
+    ? true
+    : CheckRepeatedTuple<R>
+  : false
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
 import { ExpectFalse, NotEqual } from '@type-challenges/utils'
