@@ -11,23 +11,28 @@
 
   ```ts
   PermutationsOfTuple<[1, number, unknown]>
-  /**
-   * Should return:
-   * | [1, number, unknown]
-   * | [1, unknown, number]
-   * | [number, 1, unknown]
-   * | [unknown, 1, number]
-   * | [number, unknown, 1]
-   * | [unknown, number ,1]
-   */
+   | [1, number, unknown]
+   | [1, unknown, number]
+   | [number, 1, unknown]
+   | [unknown, 1, number]
+   | [number, unknown, 1]
+   | [unknown, number ,1]
   ```
-
-  > View on GitHub: https://tsch.js.org/21220
 */
 
 /* _____________ Your Code Here _____________ */
 
-type PermutationsOfTuple<T extends unknown[]> = any
+type Insert<T extends unknown[], U> =
+    T extends [infer F, ...infer L]
+      ? [F, U, ...L] | [F, ...Insert<L, U> ]
+      : [U]
+
+type PermutationsOfTuple<
+    T extends unknown[],
+    R extends unknown[] = [],
+> = T extends [infer F, ...infer L]
+  ? PermutationsOfTuple<L, Insert<R, F> | [F, ...R] >
+  : R
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect, ExpectFalse } from '@type-challenges/utils'
