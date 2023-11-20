@@ -5,7 +5,9 @@
 
   ### Question
 
-  The transpose of a matrix is an operator which flips a matrix over its diagonal; that is, it switches the row and column indices of the matrix A by producing another matrix, often denoted by A<sup>T</sup>.
+  The transpose of a matrix is an operator which flips a matrix over its diagonal;
+  that is, it switches the row and column indices of the matrix
+  A by producing another matrix, often denoted by A<sup>T</sup>.
 
   ```ts
   type Matrix = Transpose <[[1]]>; // expected to be [[1]]
@@ -18,11 +20,14 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Transpose<M extends number[][]> = any
+type Transpose<M extends number[][], R = M['length'] extends 0 ? [] : M[0]> = {
+  [X in keyof R]: {
+    [Y in keyof M]: X extends keyof M[Y] ? M[Y][X] : never
+  }
+}
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
-import { ExpectFalse, NotEqual } from '@type-challenges/utils'
 
 type cases = [
   Expect<Equal<Transpose<[]>, []>>,
