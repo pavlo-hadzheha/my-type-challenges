@@ -16,7 +16,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type CartesianProduct<T, U> = any
+// Union<2 | 3> -> [2] | [3]
+type Union<T> = T extends T ? [T] : never
+
+// [1, ...Union<2 | 3>] -> [1, 2] | [1, 3]
+type CartesianProduct<T, U> = T extends T ? [T, ...Union<U>] : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
