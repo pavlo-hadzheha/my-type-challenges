@@ -22,7 +22,12 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MergeAll<XS> = any
+type MergeAll<XS extends object[], Res = {}> =
+    XS extends [infer L, ...infer R extends object[]]
+      ? MergeAll<R, Omit<Res, keyof L> & {
+        [p in keyof L]: p extends keyof Res ? L[p] | Res[p] : L[p]
+      }>
+      : Omit<Res, never>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
